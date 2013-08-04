@@ -1,0 +1,145 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<script type="text/javascript">
+		var turn = true; // true = x, false = o
+		var moves = 0;
+		function whosTurn() {
+			var t = turn? 'x' : 'o';
+			turn = !turn;
+			return t;
+		}
+		// wire up the squares and the reset button
+		function attachEvents() {
+		  var squares = document.getElementsByClassName("square"),
+		   	  reset = document.getElementById("playagain"),
+		      gameover = document.getElementById("gameover");
+		  for(var i = 0; i < squares.length; i++) {
+		    squares.item(i).addEventListener('click', function(){
+		    	if(!(/filled/.test(this.className))) {
+		    		this.innerHTML = whosTurn();
+		    		this.className += " filled";
+		    		moves++;
+		    	}
+		    	if (moves == 9) {
+		    		gameover.className = "";
+		    	}
+		    },false);
+		  } 
+		  // handles reset gamestate logic
+		  reset.addEventListener('click',function(){
+		  	for(var i=0; i < squares.length; i++) {
+		  		squares.item(i).innerHTML = "";
+		  		squares.item(i).className = "square";
+		  	}
+		  	turn = true;
+		  	moves = 0;
+		  	gameover.className += " hide";
+		  	console.log("bord reset");
+		  },false);
+		}
+		// bind to window load event
+		window.addEventListener("DOMContentLoaded",attachEvents,false);
+	</script>
+	<style type="text/css">
+	#bord, #header {
+	  font-family: courier;
+	  text-align: center;
+	}
+
+	#header {
+		margin-bottom: 15px;
+		font-size: 35px;
+	}
+
+	#gameover {
+		font-family: courier;
+		color: #F00;
+		-webkit-border-radius: 7px;
+		position: absolute;
+		border: 4px solid #F00;
+		font-size: 25px;
+		padding: 5px;
+		font-weight: bold;
+		top: 13%;
+		left: 25%;
+		-webkit-transform: rotate(-9deg);
+	}
+	.hide {
+		display: none;
+	}
+	#bord div.row {
+
+	  display:-webkit-box;
+	  border-bottom: 1px solid #cecece;
+	  border-top: 1px solid #333;
+	  border-left: 1px solid #fff;
+	}
+
+	#bord div.row:first-of-type {
+	  border-top: none;
+	}
+
+	#bord div.row:last-of-type {
+	  border-bottom: none;
+	}
+
+	#bord div.row span.square {
+	  width: 33%;
+	  display: block;
+	  text-align: center;
+	  min-height: 35px;
+	  font-size: 45px;
+	}
+
+	#bord div.row span.square:first-of-type {
+	  border-right: 1px solid #333;
+	  border-left: 1px solid #fff;
+	}
+	#bord div.row span.square:nth-of-type(2) {
+	  border-left: 1px solid #cecece;
+	  border-right: 1px solid #cecece;
+	}
+	#bord div.row span.square:last-of-type {
+	  border-left: 1px solid #333;
+	  border-right: 1px solid #fff;
+	}
+	#playagain {
+		background-color: #f04934;
+		-webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.34);
+		background-image: -webkit-linear-gradient(top, #ed4832, #e1442f);
+		background-image: linear-gradient(to bottom, #ed4832, #e1442f);
+		font-family: courier;
+		-webkit-border-radius: 5px;
+		width: 100%;
+		margin: 10px 0px;
+		color: #fff;
+	}
+	</style>
+	<title>Tic Tac Toe</title>
+</head>
+<body>
+<header id='header'>Tic Tac Toe</header>
+<div id="gameover" class="hide">GAME OVER</div>
+<section id='bord'>
+  <div class='row'>
+    <span class='square'></span>
+    <span class='square'></span>
+    <span class='square'></span>
+  </div>
+  <div class='row'>
+    <span class='square'></span>
+    <span class='square'></span>
+    <span class='square'></span>
+  </div>
+  <div class='row'>
+    <span class='square'></span>
+    <span class='square'></span>
+    <span class='square'></span>
+  </div>
+</section>
+<footer>
+	<button id="playagain">Reset</button>
+</footer>
+</body>
+</html>
